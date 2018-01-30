@@ -199,7 +199,7 @@ metadata {
             state "windinfo", label: 'Vent ${currentValue}'
         }
         valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) {
-            state "temperature", label: '${currentValue}°C $',
+            state "temperature", label: '${currentValue}°C --',
 				backgroundColors:[
 					[value: 32, color: "#153591"],
 					[value: 44, color: "#1e9cbb"],
