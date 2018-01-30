@@ -17,7 +17,7 @@
 *  Date: 2013-04-30
 */
 metadata {
-    definition (name: "SmartWeather Station Tile 2.0", namespace: "takis", author: "Takis") {
+    definition (name: "Toile meteo 1.0", namespace: "jproy1957", author: "Takis") {
         capability "Illuminance Measurement"
         capability "Temperature Measurement"
         capability "Relative Humidity Measurement"
@@ -85,7 +85,7 @@ metadata {
     tiles(scale: 2) {
         multiAttributeTile(name:"temperature", type:"generic", width:6, height:4, canChangeIcon: false) {
             tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
-                attributeState("temperature",label:'${currentValue}°C',
+                attributeState("temperature",label:'[Debug 1] ${currentValue}°C',
 					backgroundColors:[
 					[value: 32, color: "#153591"],
 					[value: 44, color: "#1e9cbb"],
@@ -199,7 +199,7 @@ metadata {
             state "windinfo", label: 'Vent ${currentValue}'
         }
         valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) {
-            state "temperature", label: '${currentValue}°C',
+            state "temperature", label: '[Debug 2] ${currentValue}°C',
 				backgroundColors:[
 					[value: 32, color: "#153591"],
 					[value: 44, color: "#1e9cbb"],
