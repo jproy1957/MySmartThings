@@ -86,15 +86,26 @@ metadata {
     {
         multiAttributeTile(name:"temperature", type:"generic", width:6, height:4, canChangeIcon: false) {
             tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
-                attributeState("temperature",label:'${currentValue}°C',
+                attributeState("temperature",label:'${currentValue}°C',	unit:"C",
 					backgroundColors:[
-					[value: -8, color: "#153591"],
-					[value: 0, color: "#1e9cbb"],
-					[value: 10, color: "#90d2a7"],
-					[value: 21, color: "#44b621"],
-					[value: 24, color: "#f1d801"],
-					[value: 26, color: "#d04e00"],
-					[value: 28, color: "#bc2323"]])
+							// Celsius
+							[value: 0, color: "#153591"],
+							[value: 7, color: "#1e9cbb"],
+							[value: 15, color: "#90d2a7"],
+							[value: 23, color: "#44b621"],
+							[value: 28, color: "#f1d801"],
+							[value: 35, color: "#d04e00"],
+							[value: 37, color: "#bc2323"],
+							// Fahrenheit
+							[value: 40, color: "#153591"],
+							[value: 44, color: "#1e9cbb"],
+							[value: 59, color: "#90d2a7"],
+							[value: 74, color: "#44b621"],
+							[value: 84, color: "#f1d801"],
+							[value: 95, color: "#d04e00"],
+							[value: 96, color: "#bc2323"]
+					]
+                )
             }
             tileAttribute("device.feelsLike", key: "SECONDARY_CONTROL") {
                 attributeState("default", label:'Ressentie ${currentValue}°C')
@@ -199,16 +210,25 @@ metadata {
             state "windinfo", label: 'Vent ${currentValue}'
         }
         valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) {
-            state "temperature", label: '${currentValue}°C .. ${device.windinfo}', foregroundColors:"#000000",
-				backgroundColors:[
-				[value: -8, color: "#153591"],
-				[value: 0, color: "#1e9cbb"],
-				[value: 10, color: "#90d2a7"],
-				[value: 21, color: "#44b621"],
-				[value: 24, color: "#f1d801"],
-				[value: 26, color: "#d04e00"],
-				[value: 28, color: "#bc2323"]
-            ]
+            state "temperature", label: '${currentValue}°C .. ${device.windinfo}', foregroundColors:"#000000", unit:"C",
+					backgroundColors:[
+							// Celsius
+							[value: 0, color: "#153591"],
+							[value: 7, color: "#1e9cbb"],
+							[value: 15, color: "#90d2a7"],
+							[value: 23, color: "#44b621"],
+							[value: 28, color: "#f1d801"],
+							[value: 35, color: "#d04e00"],
+							[value: 37, color: "#bc2323"],
+							// Fahrenheit
+							[value: 40, color: "#153591"],
+							[value: 44, color: "#1e9cbb"],
+							[value: 59, color: "#90d2a7"],
+							[value: 74, color: "#44b621"],
+							[value: 84, color: "#f1d801"],
+							[value: 95, color: "#d04e00"],
+							[value: 96, color: "#bc2323"]
+					]
         }
         
         main(["temperature2"])
