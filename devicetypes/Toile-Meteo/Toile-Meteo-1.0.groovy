@@ -82,19 +82,19 @@ metadata {
         input "weather", "device.smartweatherStationTile", title: "Météo...", multiple: true, required: false
     }
     
-    tiles(scale: 2) {
+    tiles(scale: 2) 
+    {
         multiAttributeTile(name:"temperature", type:"generic", width:6, height:4, canChangeIcon: false) {
             tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
-                attributeState("temperature",label:'[Debug 1] ${currentValue}°C',
+                attributeState("temperature",label:'${currentValue}°C',
 					backgroundColors:[
-					[value: 32, color: "#153591"],
-					[value: 44, color: "#1e9cbb"],
-					[value: 59, color: "#90d2a7"],
-					[value: 74, color: "#44b621"],
-					[value: 84, color: "#f1d801"],
-					[value: 92, color: "#d04e00"],
-					[value: 98, color: "#bc2323"]
-                    ])
+					[value: -8, color: "#153591"],
+					[value: 0, color: "#1e9cbb"],
+					[value: 10, color: "#90d2a7"],
+					[value: 21, color: "#44b621"],
+					[value: 24, color: "#f1d801"],
+					[value: 26, color: "#d04e00"],
+					[value: 28, color: "#bc2323"]])
             }
             tileAttribute("device.feelsLike", key: "SECONDARY_CONTROL") {
                 attributeState("default", label:'Ressentie ${currentValue}°C')
@@ -199,22 +199,23 @@ metadata {
             state "windinfo", label: 'Vent ${currentValue}'
         }
         valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) {
-            state "temperature", label: '${currentValue}°C --',
+            state "temperature", label: '${currentValue}°C .. ${device.windinfo}', foregroundColors:"#000000",
 				backgroundColors:[
-					[value: 32, color: "#153591"],
-					[value: 44, color: "#1e9cbb"],
-					[value: 59, color: "#90d2a7"],
-					[value: 74, color: "#44b621"],
-					[value: 84, color: "#f1d801"],
-					[value: 92, color: "#d04e00"],
-					[value: 98, color: "#bc2323"]
+				[value: -8, color: "#153591"],
+				[value: 0, color: "#1e9cbb"],
+				[value: 10, color: "#90d2a7"],
+				[value: 21, color: "#44b621"],
+				[value: 24, color: "#f1d801"],
+				[value: 26, color: "#d04e00"],
+				[value: 28, color: "#bc2323"]
             ]
         }
         
         main(["temperature2"])
         details(["temperature", "feelslike", "weatherIcon", "weather", "humidity" , "dewpoint", "windinfo", 
         "pressure", "solarradiation", "uv_index", "light", "visibility", "city", "rise", "set", "lastSTupdate", 
-        "percentPrecip", "percentPrecipToday", "percentPrecipLastHour", "water", "alert", "refresh"])}
+        "percentPrecip", "percentPrecipToday", "percentPrecipLastHour", "water", "alert", "refresh"])
+    }
 }
 
 // parse events into attributes
