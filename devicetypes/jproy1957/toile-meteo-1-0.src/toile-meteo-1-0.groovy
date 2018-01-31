@@ -16,8 +16,10 @@
 *
 *  Date: 2013-04-30
 */
-metadata {
-    definition (name: "Toile meteo 1.0", namespace: "jproy1957", author: "Takis") {
+metadata 
+{
+    definition (name: "Toile meteo 1.0", namespace: "jproy1957", author: "Takis") 
+    {
         capability "Illuminance Measurement"
         capability "Temperature Measurement"
         capability "Relative Humidity Measurement"
@@ -56,7 +58,8 @@ metadata {
         command "refresh"
     }
 
-    preferences {
+    preferences 
+    {
         input "zipCode", "text", title: "Code postal (optionnel)", required: false
         
         input ("pres_units", "enum", title: "Unités de pression barométrique (optionnel)", required: false, 
@@ -84,9 +87,11 @@ metadata {
     
     tiles(scale: 2) 
     {
-        multiAttributeTile(name:"temperature", type:"generic", width:6, height:4, canChangeIcon: false) {
-            tileAttribute("device.temperature", key: "PRIMARY_CONTROL") {
-                attributeState("temperature",label:'${currentValue}°C',	unit:"C",
+        multiAttributeTile(name:"temperature", type:"generic", width:6, height:4, canChangeIcon: false) 
+        {
+            tileAttribute("device.temperature", key: "PRIMARY_CONTROL") 
+            {
+                attributeState("temperature",label:'${currentValue}°C',	foregroundColors:"#000000", unit:"C",
 					backgroundColors:[
 							// Celsius
 							[value: -8, color: "#153591"],
@@ -103,15 +108,15 @@ metadata {
 							[value: 74, color: "#44b621"],
 							[value: 84, color: "#f1d801"],
 							[value: 95, color: "#d04e00"],
-							[value: 96, color: "#bc2323"]
-					]
-                )
+							[value: 96, color: "#bc2323"]])
             }
-            tileAttribute("device.feelsLike", key: "SECONDARY_CONTROL") {
+            tileAttribute("device.feelsLike", key: "SECONDARY_CONTROL") 
+            {
                 attributeState("default", label:'Ressentie ${currentValue}°C')
             }
         }    
-        standardTile("weatherIcon", "device.weatherIcon", decoration: "flat") {
+        standardTile("weatherIcon", "device.weatherIcon", decoration: "flat") 
+        {
             state "chanceflurries", icon:"st.custom.wu1.chanceflurries", label: ""
             state "chancerain", icon:"st.custom.wu1.chancerain", label: ""
             state "chancesleet", icon:"st.custom.wu1.chancesleet", label: ""
@@ -156,61 +161,79 @@ metadata {
             state "nt_cloudy", icon:"st.custom.wu1.nt_cloudy", label: ""
             state "nt_partlycloudy", icon:"st.custom.wu1.nt_partlycloudy", label: ""
         }
-        valueTile("lastSTupdate", "device.lastSTupdate", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("lastSTupdate", "device.lastSTupdate", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state("default", label: 'Dernière mise-à-jour\n ${currentValue}')
         }
-        valueTile("humidity", "device.humidity", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("humidity", "device.humidity", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Humidité ${currentValue}%', unit:"%"
         }
-        valueTile("weather", "device.weather", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("weather", "device.weather", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'${currentValue}'
         }
-        valueTile("percentPrecip", "device.percentPrecip", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("percentPrecip", "device.percentPrecip", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Pluie\n ${currentValue}%'
         }
-        valueTile("percentPrecipToday", "device.percentPrecipToday", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("percentPrecipToday", "device.percentPrecipToday", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Pluie aujourd\'hui\n ${currentValue}'
         }
-        valueTile("percentPrecipLastHour", "device.percentPrecipLastHour", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("percentPrecipLastHour", "device.percentPrecipLastHour", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Pluie dernière heure\n ${currentValue}'
         }
-        standardTile("refresh", "device.weather", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) {
+        standardTile("refresh", "device.weather", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label: "", action: "refresh", icon:"st.secondary.refresh"
         }
-        valueTile("alert", "device.alert", inactiveLabel: false, width: 5, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("alert", "device.alert", inactiveLabel: false, width: 5, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Alertes météo:\n ${currentValue}'
         }
-        valueTile("rise", "device.localSunrise", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("rise", "device.localSunrise", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Lever du soleil\n ${currentValue}'
         }
-        valueTile("set", "device.localSunset", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("set", "device.localSunset", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Coucher du soleil\n ${currentValue}'
         }
-        valueTile("light", "device.illuminance", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("light", "device.illuminance", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'${currentValue} lux'
         }
-        valueTile("visibility", "device.visibility", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("visibility", "device.visibility", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Visibilité\n ${currentValue}'
         }
-        valueTile("uv_index", "device.uv_index", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("uv_index", "device.uv_index", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "uv_index", label: 'Index UV ${currentValue}', unit: "UV Index"
         }
-        standardTile("water", "device.water", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) {
+        standardTile("water", "device.water", inactiveLabel: false, width: 1, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label: 'Mise-à-jour...', icon: "st.unknown.unknown.unknown"
             state "true",        icon: "st.alarm.water.wet",        backgroundColor:"#ff9999"
             state "false",       icon: "st.alarm.water.dry",        backgroundColor:"#99ff99"
         }
-        valueTile("dewpoint", "device.dewpoint", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("dewpoint", "device.dewpoint", inactiveLabel: false, width: 2, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "default", label:'Condensation ${currentValue}°C'
         }
-        valueTile("pressure", "device.pressure", inactiveLabel: false, width: 3, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("pressure", "device.pressure", inactiveLabel: false, width: 3, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "pressure", label: 'Pression ${currentValue}'
         }
-        valueTile("windinfo", "device.windinfo", inactiveLabel: false, width: 3, height: 1, decoration: "flat", wordWrap: true) {
+        valueTile("windinfo", "device.windinfo", inactiveLabel: false, width: 3, height: 1, decoration: "flat", wordWrap: true) 
+        {
             state "windinfo", label: 'Vent ${currentValue}'
         }
-        valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) {
-            state "temperature", label: '${currentValue}°C .. ${device.windinfo}', foregroundColors:"#000000", unit:"C",
+        valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) 
+        {
+            state "temperature", label: '${currentValue}°C .. ${name}', foregroundColors:"#000000", unit:"C",
 					backgroundColors:[
 							// Celsius
 							[value: -8, color: "#153591"],
@@ -229,8 +252,7 @@ metadata {
 							[value: 95, color: "#d04e00"],
 							[value: 96, color: "#bc2323"]
 					]
-        }
-        
+        }      
         main(["temperature2"])
         details(["temperature", "feelslike", "weatherIcon", "weather", "humidity" , "dewpoint", "windinfo", 
         "pressure", "solarradiation", "uv_index", "light", "visibility", "city", "rise", "set", "lastSTupdate", 
