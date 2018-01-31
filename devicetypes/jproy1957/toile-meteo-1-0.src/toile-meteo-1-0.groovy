@@ -348,21 +348,21 @@ def poll() {
                 send(name: "wind", value: "${obs.wind_mph}")
                 break;
             case "speed_kph":
-                send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kph\n(Bourasque: ${obs.wind_gust_kph} kph)")
+                send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kmh\n(Bourasque: ${obs.wind_gust_kph} kmh)")
                 send(name: "wind_gust", value: "${obs.wind_gust_kph}")
                 send(name: "winddirection", value: "${obs.wind_dir}")
                 send(name: "winddirection_deg", value: "${obs.wind_degrees}")
                 send(name: "wind", value: "${obs.wind_kph}")
                 break;
             default:
-                send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kph\n(Bourasque: ${obs.wind_gust_kph} kph)")
+                send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kmh\n(Bourasque: ${obs.wind_gust_kph} kmh)")
                 send(name: "wind_gust", value: "${obs.wind_gust_kph}")
                 send(name: "winddirection", value: "${obs.wind_dir}")
                 send(name: "winddirection_deg", value: "${obs.wind_degrees}")
                 send(name: "wind", value: "${obs.wind_kph}")
             }
         } else {
-            send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kph\n(Bourasque: ${obs.wind_gust_kph} kph)")
+            send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kmh\n(Bourasque: ${obs.wind_gust_kph} kmh)")
         }                  
         
         // Since precip_1hr_in is a string, we need to convert it to a decimal in order to compare it as a number.
