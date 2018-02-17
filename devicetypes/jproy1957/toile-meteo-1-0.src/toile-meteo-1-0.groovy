@@ -91,7 +91,7 @@ metadata
         {
             tileAttribute("device.temperature", key: "PRIMARY_CONTROL") 
             {
-                attributeState("temperature",label:'${currentValue}°C',	foregroundColors:"#000000", unit:"C",
+                attributeState("temperature",label:'${currentValue}°C',	foregroundColors:"#ffffff", unit:"C",
 					backgroundColors:[
 							// Celsius
 							[value: -8, color: "#153591"],
@@ -233,7 +233,7 @@ metadata
         }
         valueTile("temperature2", "device.temperature", width: 1, height: 1, canChangeIcon: true) 
         {
-            state "temperature", label: '${currentValue}°C .. ${name}', foregroundColors:"#000000", unit:"C",
+            state "temperature", label: '${currentValue}°C', foregroundColors:"#ffffff", unit:"C",
 					backgroundColors:[
 							// Celsius
 							[value: -8, color: "#153591"],
@@ -261,25 +261,33 @@ metadata
 }
 
 // parse events into attributes
-def parse(String description) {
+def parse(String description) 
+{
     log.debug "Parsing '${description}'"
 }
 
-def installed() {
-	runEvery15Minutes(poll)
+def installed() 
+{
+	log.debug "installed"
+	runEvery5Minutes(poll)
 }
 
-def uninstalled() {
+def uninstalled() 
+{
+	log.debug "uninstalled"
 	unschedule()
 }
 
-def updated() {
+def updated() 
+{
+	log.debug "run every 5 minutes"
 	unschedule()
-    runEvery15Minutes(poll)
+    runEvery5Minutes(poll)
 }
 
 // handle commands
-def poll() {
+def poll() 
+{
     log.debug "WUSTATION: Executing 'poll', location: ${location.name}"
 
     // Current conditions
@@ -291,11 +299,14 @@ def poll() {
         
         def weatherIcon = obs.icon_url.split("/")[-1].split("\\.")[0]
 
-        if(getTemperatureScale() == "C") {
+        if(getTemperatureScale() == "C") 
+        {
             send(name: "temperature", value: Math.round(obs.temp_c), unit: "C")
             send(name: "feelsLike", value: Math.round(obs.feelslike_c as Double), unit: "C")
             send(name: "dewpoint", value: Math.round(obs.dewpoint_c as Double), unit: "C")
-        } else {
+        } 
+        else 
+        {
             send(name: "temperature", value: Math.round(obs.temp_f), unit: "F")
             send(name: "feelsLike", value: Math.round(obs.feelslike_f as Double), unit: "F")
             send(name: "dewpoint", value: Math.round(obs.dewpoint_f as Double), unit: "F")
@@ -307,14 +318,13 @@ def poll() {
         
         send(name: "uv_index", value: obs.UV)
         send(name: "solarradiation", value: obs.solarradiation, display: false)
-        
-        
+              
         def pressure_trend_text
-        switch (obs.pressure_trend) {
+        switch (obs.pressure_trend) 
+        {
         case "-" :
             pressure_trend_text = "Baisse"
             break;
-
         case "+":
             pressure_trend_text = "Hausse"
             break;
@@ -328,24 +338,29 @@ def poll() {
             pressure_trend_text = "N/D"
         }
         
-        if (pres_units) {
-            switch (pres_units) {
+        if (pres_units) 
+        {
+            switch (pres_units) 
+            {
             case "press_mb" :
                 send(name: "pressure", value: "${obs.pressure_mb} mbar (${pressure_trend_text})")
                 break;
-
             case "press_in":
                 send(name: "pressure", value: "${obs.pressure_in} pouces (${pressure_trend_text})")
                 break;
             default:
                 send(name: "pressure", value: "${obs.pressure_mb} mbar (${pressure_trend_text})")
             }
-        } else {
+        } 
+        else 
+        {
             send(name: "pressure", value: "${obs.pressure_mb} mbar (${pressure_trend_text})")
         }        
 
-        if (dist_units) {
-            switch (dist_units) {
+        if (dist_units) 
+        {
+            switch (dist_units) 
+            {
             case "dist_mi" :
                 send(name: "visibility", value: "${obs.visibility_mi} mi")
                 break;
@@ -356,12 +371,15 @@ def poll() {
             default:
                 send(name: "visibility", value: "${obs.visibility_km} km")
             }
-        } else {
+        } 
+        else 
+        {
             send(name: "visibility", value: "${obs.visibility_km} km")
         }      
         
         if (height_units) {
-            switch (height_units) {
+            switch (height_units) 
+            {
             case "height_in" :
                 send(name: "percentPrecipToday", value: "${obs.precip_today_in} in")
                 send(name: "percentPrecipLastHour", value: "${obs.precip_1hr_in} in")
@@ -375,13 +393,17 @@ def poll() {
                 send(name: "percentPrecipToday", value: "${obs.precip_today_metric} mm")
                 send(name: "percentPrecipLastHour", value: "${obs.precip_1hr_metric} mm")
             }
-        } else {
+        } 
+        else 
+        {
             send(name: "percentPrecipToday", value: "${obs.precip_today_metric} mm")
             send(name: "percentPrecipLastHour", value: "${obs.precip_1hr_metric} mm")
         }  
 
-        if (speed_units) {
-            switch (speed_units) {
+        if (speed_units) 
+        {
+            switch (speed_units) 
+            {
             case "speed_mph" :
                 send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_mph} mph\n(Gust: ${obs.wind_gust_mph} mph)")
                 send(name: "wind_gust", value: "${obs.wind_gust_mph}")
@@ -403,23 +425,30 @@ def poll() {
                 send(name: "winddirection_deg", value: "${obs.wind_degrees}")
                 send(name: "wind", value: "${obs.wind_kph}")
             }
-        } else {
+        } 
+        else 
+        {
             send(name: "windinfo", value: "${obs.wind_dir} (${obs.wind_degrees}°) à ${obs.wind_kph} kmh\n(Bourasque: ${obs.wind_gust_kph} kmh)")
         }                  
         
         // Since precip_1hr_in is a string, we need to convert it to a decimal in order to compare it as a number.
-        if (obs.precip_1hr_in.toFloat() > 0) {
+        if (obs.precip_1hr_in.toFloat() > 0) 
+        {
             sendEvent( name: 'water', value: "true" )
-        } else {
+        } 
+        else 
+        {
             sendEvent( name: 'water', value: "false" )
         }
 
-        if (obs.local_tz_offset != device.currentValue("timeZoneOffset")) {
+        if (obs.local_tz_offset != device.currentValue("timeZoneOffset")) 
+        {
             send(name: "timeZoneOffset", value: obs.local_tz_offset, isStateChange: true)
         }
 
         def cityValue = "${obs.display_location.city}, ${obs.display_location.state}"
-        if (cityValue != device.currentValue("city")) {
+        if (cityValue != device.currentValue("city")) 
+        {
             send(name: "city", value: cityValue, isStateChange: true)
         }
 
@@ -446,13 +475,15 @@ def poll() {
         // Forecast
         def f = get("forecast")
         def f1= f?.forecast?.simpleforecast?.forecastday
-        if (f1) {
+        if (f1) 
+        {
             def icon = f1[0].icon_url.split("/")[-1].split("\\.")[0]
             def value = f1[0].pop as String // as String because of bug in determining state change of 0 numbers
             send(name: "percentPrecip", value: value, unit: "%")
             send(name: "forecastIcon", value: icon, displayed: false)
         }
-        else {
+        else 
+        {
             log.warn "Forecast not found"
         }
 
@@ -465,79 +496,95 @@ def poll() {
         //log.debug "WUSTATION: oldKeys = $oldKeys"
 
         def noneString = "Aucune alerte météo"
-        if (!newKeys && oldKeys == null) {
+        if (!newKeys && oldKeys == null) 
+        {
             send(name: "alertKeys", value: newKeys.encodeAsJSON(), displayed: false)
             send(name: "alert", value: noneString, descriptionText: "Aucune alert météo à ${device.displayName}", isStateChange: true)
         }
-        else if (newKeys != oldKeys) {
-            if (oldKeys == null) {
+        else if (newKeys != oldKeys) 
+        {
+            if (oldKeys == null) 
+            {
                 oldKeys = []
             }
             send(name: "alertKeys", value: newKeys.encodeAsJSON(), displayed: false)
 
             def newAlerts = false
             alerts.each {alert ->
-                if (!oldKeys.contains(alert.type + alert.date_epoch)) {
+                if (!oldKeys.contains(alert.type + alert.date_epoch)) 
+                {
                     def msg = "${alert.description} de ${alert.date} jusqu\'à ${alert.expires}"
                     send(name: "alert", value: pad(alert.description), descriptionText: msg, isStateChange: true)
                     newAlerts = true
                 }
             }
 
-            if (!newAlerts && device.currentValue("alert") != noneString) {
+            if (!newAlerts && device.currentValue("alert") != noneString) 
+            {
                 send(name: "alert", value: noneString, descriptionText: "Aucune alert météo à ${device.displayName}", isStateChange: true)
             }
         }
     }
-    else {
+    else 
+    {
         log.warn "No response from Weather Underground API"
     }
 }
 
-def refresh() {
+def refresh() 
+{
     poll()
 }
 
-def configure() {
+def configure() 
+{
     poll()
 }
 
-private pad(String s, size = 25) {
+private pad(String s, size = 25) 
+{
     def n = (size - s.size()) / 2
-    if (n > 0) {
+    if (n > 0) 
+    {
         def sb = ""
         n.times {sb += " "}
         sb += s
         n.times {sb += " "}
         return sb
     }
-    else {
+    else 
+    {
         return s
     }
 }
 
-
-private get(feature) {
+private get(feature) 
+{
     getWeatherFeature("${feature}/lang:FR", zipCode)
 }
 
-private localDate(timeZone) {
+private localDate(timeZone) 
+{
     def df = new java.text.SimpleDateFormat("yyyy-MM-dd")
     df.setTimeZone(TimeZone.getTimeZone(timeZone))
     df.format(new Date())
 }
 
-private send(map) {
+private send(map) 
+{
     //log.debug "WUSTATION: event: $map"
     sendEvent(map)
 }
 
-private estimateLux(sunriseDate, sunsetDate, weatherIcon) {
+private estimateLux(sunriseDate, sunsetDate, weatherIcon) 
+{
     def lux = 0
     def now = new Date().time
-    if (now > sunriseDate.time && now < sunsetDate.time) {
+    if (now > sunriseDate.time && now < sunsetDate.time) 
+    {
         //day
-        switch(weatherIcon) {
+        switch(weatherIcon) 
+        {
         case 'tstorms':
             lux = 200
             break
@@ -562,19 +609,21 @@ private estimateLux(sunriseDate, sunsetDate, weatherIcon) {
         def beforeSunset = sunsetDate.time - now
         def oneHour = 1000 * 60 * 60
 
-        if(afterSunrise < oneHour) {
+        if(afterSunrise < oneHour) 
+        {
             //dawn
             lux = (long)(lux * (afterSunrise/oneHour))
-        } else if (beforeSunset < oneHour) {
+        } else if (beforeSunset < oneHour) 
+        {
             //dusk
             lux = (long)(lux * (beforeSunset/oneHour))
         }
     }
-    else {
+    else 
+    {
         //night - always set to 10 for now
         //could do calculations for dusk/dawn too
         lux = 10
     }
-
     lux
 }
